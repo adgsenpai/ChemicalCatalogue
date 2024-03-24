@@ -12,7 +12,7 @@ with st.expander('Raw Data'):
     st.write(df)
 
 # Select Industry from dropdown
-Industry = st.selectbox('Select Industry', df['Industry'].unique())
+Industry = st.selectbox('Select Process', df['Industry'].unique())
 
 # filter by industry
 df_filtered = df[df['Industry'] == Industry]
