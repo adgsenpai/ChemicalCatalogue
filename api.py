@@ -22,6 +22,29 @@ def get_industries():
     industries = df['Industry'].unique().tolist()
     return jsonify(industries)
 
+@app.route('/showEquipmentAndComponents/<industry>', methods=['GET'])
+def show_equipment_and_components(industry):
+    df_filtered = df[df['Industry'] == industry]
+    EquipmentData = []
+    ComponentParts = []
+    import ast
+    for i in range(len(df_filtered)):
+        if EquipmentData.count(df_filtered.iloc[i]['Equipment']) == 0:
+            # convert to list
+            items = ast.literal_eval(df_filtered.iloc[i]['Equipment'])
+            for item in items:
+                if EquipmentData.count(item) == 0:
+                    EquipmentData.append(item)
+                    
+    # do component parts
+    for i in range(len(df_filtered)):
+        if ComponentParts.count(df_filtered.iloc[i]['Component Part']) == 0:
+            ComponentParts.append(df_filtered.iloc[i]['Component Part'])
+    return jsonify({
+        'Equipment': EquipmentData,
+        'Component Parts': ComponentParts
+    })
+
 @app.route('/equipment', methods=['GET'])
 def get_equipment():
     industry = request.args.get('industry')
@@ -30,10 +53,15 @@ def get_equipment():
 
     df_filtered = df[df['Industry'] == industry]
     EquipmentData = []
-    for _, row in df_filtered.iterrows():
-        for item in row['Equipment']:
-            if item not in EquipmentData:
-                EquipmentData.append(item)
+    import ast
+    for i in range(len(df_filtered)):
+        if EquipmentData.count(df_filtered.iloc[i]['Equipment']) == 0:
+            # convert to list
+            items = ast.literal_eval(df_filtered.iloc[i]['Equipment'])
+            for item in items:
+                if EquipmentData.count(item) == 0:
+                    EquipmentData.append(item)
+    
     return jsonify(EquipmentData)
 
 @app.route('/component_parts', methods=['GET'])
