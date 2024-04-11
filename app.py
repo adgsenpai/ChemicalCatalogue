@@ -5,7 +5,7 @@ import pandas as pd
 df = pd.read_csv('./combined.csv')
 
 # Display the main header
-st.write('# Chemical Project Demo')
+st.write('# Petronas Lubricant Application')
 
 # Display raw data
 with st.expander('Raw Data'):
