@@ -10,7 +10,7 @@ CORS(app)
 
 
 # Load data initially to avoid reloading it on each request
-df = pd.read_json('./PulpAndPaperJSON.json')
+df = pd.read_csv('./combined.csv')
 
 
 @app.route('/raw_data', methods=['GET'])

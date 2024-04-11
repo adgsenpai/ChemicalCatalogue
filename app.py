@@ -1,18 +1,18 @@
 import streamlit as st
 import pandas as pd
 
-# Read data from the JSON file
-df = pd.read_json('./PulpAndPaperJSON.json')
+# Read data from the CSV file
+df = pd.read_csv('./combined.csv')
 
 # Display the main header
-st.write('# Pulp and Paper Demo')
+st.write('# Chemical Project Demo')
 
 # Display raw data
 with st.expander('Raw Data'):
     st.write(df)
 
 # Select Industry from dropdown
-Industry = st.selectbox('Select Process', df['Industry'].unique())
+Industry = st.selectbox('Select Industry', df['Industry'].unique())
 
 # filter by industry
 df_filtered = df[df['Industry'] == Industry]
@@ -21,10 +21,17 @@ df_filtered = df[df['Industry'] == Industry]
 EquipmentData = []
 for i in range(len(df_filtered)):
     if EquipmentData.count(df_filtered.iloc[i]['Equipment']) == 0:
-        for item in df_filtered.iloc[i]['Equipment']:
-            if item not in EquipmentData:
+        import ast        
+        # convert to list
+        items = ast.literal_eval(df_filtered.iloc[i]['Equipment'])        
+        for item in items:
+            if EquipmentData.count(item) == 0:
                 EquipmentData.append(item)
-    
+                
+        
+        
+              
+          
         
 
  
